@@ -15,14 +15,19 @@ Khude Barta is an online chatting application. Primary motive of this project is
 * HTML / CSS / JavaScript – Web Development Technologies
  
 ## Network Diagram
-<img src="https://i.imgur.com/Ufdtuxi.png">
+
+<img src="https://i.imgur.com/Ufdtuxi.png" width="600"/>
 
 ## Database Structure
 We used MySQL as our database backend. Our web service stores and retrieve data from here. To have minimum functionality in our project we created two table on a database “user” & “message”. One is for storing & verifying user information and other is used to store & retrieve messages for users.
+
 ### User Table
-<img src="https://i.imgur.com/89Ghdaw.png">
+
+<img src="https://i.imgur.com/89Ghdaw.png" width="600"/>
+
 ### Message Table
-<img src="https://i.imgur.com/DQqhFy6.png">
+
+<img src="https://i.imgur.com/DQqhFy6.png" width="600">
 
 ## Web Service 
 Backbone of this project is web service behind it. Our web service is built using PHP / MySQL. Our web service runs on Apace Web Server. Main parts of our service are Authentication, Send, Receive & Transceiver. 
@@ -33,27 +38,34 @@ Backbone of this project is web service behind it. Our web service is built usin
 
 ## C Based Client
 Most important part of this project is to display the possibility of creating a fully functional C based chatting client.
-<img src="http://i.imgur.com/znMIuYW.png">
+
+<img src="http://i.imgur.com/znMIuYW.png" width="600"/>
+
 Our C client uses Socket & Thread. Socket helps in accessing internet; Thread helps in sending & receiving message at the same time without blocking the standard input / output stream. The main benefit of this C client is it can run on different platforms.
 
 ## Desktop Client
 Our desktop client is built using <a href="https://github.com/electron/electron">Electron</a> which is a cross platform application builder. Due to this our application can run on most of the popular operating systems out there.
-<img src="https://i.imgur.com/AWOTExi.png">
+
+<img src="https://i.imgur.com/AWOTExi.png" width="600"/>
 
 ## Web Client
 Our web client is built using HTML / CSS / JavaScript and it uses the web service for authenticating, sending & receiving message.
-<img src="https://i.imgur.com/lUS13tp.png">
+
+<img src="https://i.imgur.com/lUS13tp.png" width="600">
 
 ## Mobile Client
 Interface for our mobile client looks symmetrical to our desktop & web interface. Since our theme is responsive we can fit it into almost any size of display.
-<img src="https://i.imgur.com/5AF82OM.jpg">
+
+<img src="https://i.imgur.com/5AF82OM.jpg" width="600"/>
 
 
 ## This Project is Done By:
-* <a href="https://github.com/arman-bd">Arman Hossain<a>
-* <a href="https://github.com/tarinfatema">Tarin Fatema Mithila<a>
+
+* <a href="https://github.com/arman-bd">Arman Hossain</a>
+* <a href="https://github.com/tarinfatema">Tarin Fatema Mithila</a>
 * Shahinur Shamshad
-* <a href="https://github.com/Maaaaruf">Mariful Islam<a>
+* <a href="https://github.com/Maaaaruf">Mariful Islam</a>
+
 CSE, 11'th Batch,
 Shanto-Mariam University of Creative Technology,
 Dhaka, Bangladesh.
