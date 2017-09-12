@@ -46,12 +46,12 @@ Our C client uses Socket & Thread. Socket helps in accessing internet; Thread he
 ## Desktop Client
 Our desktop client is built using <a href="https://github.com/electron/electron">Electron</a> which is a cross platform application builder. Due to this our application can run on most of the popular operating systems out there.
 
-<a href="desktop-client"><img src="https://i.imgur.com/AWOTExi.png" width="650"/></a>
+<a href="#desktop-client"><img src="https://i.imgur.com/AWOTExi.png" width="650"/></a>
 
 ## Web Client
 Our web client is built using HTML / CSS / JavaScript and it uses the web service for authenticating, sending & receiving message.
 
-<a href="web-client"><img src="https://i.imgur.com/lUS13tp.png" width="650"></a>
+<a href="#web-client"><img src="https://i.imgur.com/lUS13tp.png" width="650"></a>
 
 ## Mobile Client
 Interface for our mobile client looks symmetrical to our desktop & web interface. Since our theme is responsive we can fit it into almost any size of display.
