@@ -44,7 +44,7 @@ Most important part of this project is to display the possibility of creating a 
 Our C client uses Socket & Thread. Socket helps in accessing internet; Thread helps in sending & receiving message at the same time without blocking the standard input / output stream. The main benefit of this C client is it can run on different platforms.
 
 ## Desktop Client
-Our desktop client is built using <a href="https://github.com/electron/electron">Electron</a> which is a cross platform application builder. Due to this our application can run on most of the popular operating systems out there.
+Our desktop client is built using <a href="https://github.com/electron/electron" target="_blank">Electron</a> which is a cross platform application builder. Due to this our application can run on most of the popular operating systems out there.
 
 <a href="#desktop-client"><img src="https://i.imgur.com/AWOTExi.png" width="650"/></a>
 
@@ -61,10 +61,10 @@ Interface for our mobile client looks symmetrical to our desktop & web interface
 
 ## This Project is Done By:
 
-* <a href="https://github.com/arman-bd">Arman Hossain</a>
-* <a href="https://github.com/tarinfatema">Tarin Fatema Mithila</a>
-* Shahinur Shamshad
-* <a href="https://github.com/Maaaaruf">Mariful Islam</a>
+* <a href="https://github.com/arman-bd" target="_blank">Arman Hossain</a>
+* <a href="https://github.com/tarinfatema" target="_blank">Tarin Fatema Mithila</a>
+* <a href="https://github.com/riya-shamshad" target="_blank">Shahinur Shamshad</a>
+* <a href="https://github.com/Maaaaruf" target="_blank">Mariful Islam</a>
 
 CSE, 11'th Batch,<br>
 Shanto-Mariam University of Creative Technology,<br>
