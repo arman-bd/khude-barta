@@ -1,0 +1,22 @@
+{
+  "name": "khude-barta",
+  "version": "1.0.0",
+  "description": "A Simple Online Messenger",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/arman-bd/khude-barta",
+  "keywords": [
+    "Khude",
+    "barta",
+    "online",
+    "chatting",
+    "application"
+  ],
+  "author": "Khudro",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "~1.6.2"
+  }
+}

@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>KhudeBarta</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Loading Bootstrap -->
+	<link href="dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="dist/css/login-modal.css" rel="stylesheet">
+	<link href="dist/css/chat.css" rel="stylesheet">
+	<link href="dist/css/flat-ui.min.css" rel="stylesheet">
+	
+</head>
+<style>
+.to-bottom{
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	padding-bottom: 46px;
+}
+</style>
+<body style="background-color:#BDBDBD; overflow: hidden; height: 100%; min-height: 100%;">
+
+
+				<div align="right" class="palette palette-wet-asphalt" style="width: 100%; height: 40px; -webkit-app-region: drag; z-index:99999;">
+					
+					<div style="width: 58%; display:inline-table;" align="left">
+						<span class="fui-mail"></span> &nbsp;
+						<span id="GreetMesssage"></span>
+					</div>
+					
+					<div style="width: 40%; display:inline-table;" align="right">
+						<span id="min-btn" class="fui-triangle-down" style="-webkit-app-region: no-drag;"></span>
+						&nbsp;&nbsp;
+						<span id="max-btn" class="fui-window" style="-webkit-app-region: no-drag;"></span>
+						&nbsp;&nbsp;
+						<span id="close-btn" class="fui-cross" style="-webkit-app-region: no-drag;"></span>
+					</div>
+				</div>
+				
+
+<div id="ChatContainer" class="container" style="width: 100%">
+
+
+
+
+    <div class="row form-group">
+		
+            <div class="panel panel-primary">
+                
+                <div id="ChatScroll" class="panel-body body-panel">
+                    <ul class="ChatData chat">
+					<!-- Messages Here !-->
+                    </ul>
+                </div>
+				
+            </div>
+			
+    </div>
+</div>
+<!--
+	<div class="modal" id="login-modal" tabindex="-1" z-index="100" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 45px;">
+!-->
+		<div class="modal-dialog hide">
+			<div class="loginmodal-container">
+				<center><b>Login to Your Account</b></center>
+				<br>
+				<form id="LoginForm">
+					<input type="text" id="user" placeholder="Username" value="">
+					<input type="password" id="pass" placeholder="Password" value="">
+					<input type="submit" class="loginmodal-submit" value="Login">
+				</form>
+			</div>
+		</div>
+<!--
+	</div>
+!-->
+<footer class="footer">
+    <div class="to-bottom panel-footer clearfix" style="background-color:#BDBDBD;">
+		<form id="ChatForm" autocomplete="off">
+			<input id="ChatText" class="form-control" style="font-size: 30px; height: 45px;" autocomplete="off" />
+		</form>
+	</div>
+</footer>
+
+<input type="hidden" id="_token" value="" />
+<input type="hidden" id="_userid" value="" />
+<input type="hidden" id="_username" value="" />
+<input type="hidden" id="_fullname" value="" />
+<input type="hidden" id="_last" value="" />
+
+</body>
+
+<script>
+if(typeof module === 'object'){
+	window.module = module;
+	module = undefined;
+}
+
+</script>
+
+<script src="dist/js/jquery.min.js"></script>
+<script src="dist/js/bootstrap.min.js"></script>
+<script src="dist/js/functions.js"></script>
+
+<script>
+if(window.module){
+	module = window.module;
+};
+
+	if(typeof process === 'undefined'){
+		$("#min-btn").addClass("hide");
+		$("#max-btn").addClass("hide");
+		$("#close-btn").addClass("hide");
+	}else{
+		const remote = require('electron').remote;
+	
+		document.getElementById("min-btn").addEventListener("click", function (e) {
+		   var windowZ = remote.getCurrentWindow();
+		   windowZ.minimize(); 
+		});
+
+		document.getElementById("max-btn").addEventListener("click", function (e) {
+		   var windowZ = remote.getCurrentWindow();
+		   if (!windowZ.isMaximized()) {
+			   windowZ.maximize();          
+		   } else {
+			   windowZ.unmaximize();
+		   }
+		});
+
+		document.getElementById("close-btn").addEventListener("click", function (e) {
+		   var windowZ = remote.getCurrentWindow();
+		   windowZ.close();
+		});
+	}
+</script>
+
+<script>
+
+	// Go To Login Screen
+	serviceHost = "http://vps105442.vps.ovh.ca/chat/";
+	GoToLoginScreen();
+	
+	$('#LoginForm').on("submit", function(e){
+		e.preventDefault();
+		var servicePath = serviceHost + "service/auth.php";
+		var _user = $("#user").val();
+		var _pass = $("#pass").val();
+		
+		$("#user").val("");
+		$("#pass").val("");
+		
+		$.post(servicePath, {auth: "true", user: _user, pass: _pass})
+			.done(function( data ){
+				var sData = data.split("<:>");
+				if(sData[0].indexOf("CONTINUE") > -1){
+					
+					$("#_token").val(sData[1]);
+					$("#_userid").val(sData[2]);
+					$("#_username").val(sData[3]);
+					$("#_fullname").val(sData[4]);
+					$("#_last").val(sData[5]);
+					
+					$('.modal-dialog').addClass("hide");
+					$('#ChatContainer').removeClass("hide");
+					$('.footer').removeClass("hide");
+					$('#GreetMesssage').html("Hi, " + $("#_fullname").val());
+					
+					// Start Checking Message [ Every 2 Second ]
+					tid = setInterval(CheckNewMessage, 2000);
+				}else{
+					alert(sData[1]);
+				}
+			});
+	});
+	
+	// Send Message
+	$('#ChatForm').on("submit", function(e){
+		e.preventDefault();
+		var servicePath = serviceHost + "service/send.php";
+		var _message = $("#ChatText").val();
+		var _token = $("#_token").val();
+		$.post(servicePath, {message: _message, token: _token})
+			.done(function( data ){
+				if(data.indexOf("SUCCESS") > -1){
+					$("#ChatText").val("");
+				}else if(data.indexOf("FAILED") > -1){
+					var sData = data.split("<:>");
+					var _error = sData[1];
+					alert(_error);
+					
+					// Authentication Problem
+					if(_error.indexOf("Authentication Failed") > -1){
+						// Go To Login Screen
+						GoToLoginScreen();
+					}
+				}
+			});
+	});
+	
+	// Receive Message
+	var tid = 0;
+	function CheckNewMessage(){
+		var servicePath = serviceHost + "service/recv.php";
+		var _token = $("#_token").val();
+		var _last = $("#_last").val();
+		var _me = $("#_userid").val();
+		
+		$.post(servicePath, {token: _token, last: _last})
+			.done(function( data ){
+				if(data.indexOf("NOTHING") == 0){
+					return false;
+				}
+				if(data.indexOf("SUCCESS") == 0){
+					var sData = data.split("<:>");
+					var _newlast = sData[1];
+					var _json = JSON.parse(sData[2]);
+					
+					// Set Last Message Info
+					$("#_last").val(_newlast);
+					
+					// Display Messages
+					$.each(_json, function(i, msg){
+						//alert(msg.sender_name + ": " + msg.message);
+						
+						if(msg.sender_id == _me){
+							// My Message
+							$(".ChatData").append(
+							'<li class="right clearfix">' +
+							'	<span class="chat-img pull-right">' +
+							'		<img src="dist/img/user.png" alt="User Avatar" class="img-circle" />' +
+							'	</span>' +
+							'	<div class="chat-body clearfix">' +
+							'		<div class="header">' +
+							'		<strong class="pull-right primary-font">' + msg.sender_name + '</strong>' +
+							'		<small class=" text-muted"><span class="glyphicon glyphicon-time"></span><span class="timeCap" data-time="'+ msg.time +'">---</span></small>' +
+							'		</div>' +
+							'		<p>'+ msg.message +'</p>' +
+							'	</div>' +
+							'</li>');
+						}else{
+							// Someone Else
+							$(".ChatData").append(
+							'<li class="left clearfix">' +
+							'	<span class="chat-img pull-left">' +
+							'		<img src="dist/img/other.png" alt="User Avatar" class="img-circle" />' +
+							'	</span>' +
+							'	<div class="chat-body clearfix">' +
+							'		<div class="header">' +
+							'		<strong class="primary-font">' + msg.sender_name + '</strong>' +
+							'		<small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span><span class="timeCap" data-time="'+ msg.time +'">---</span></small>' +
+							'		</div>' +
+							'		<p>'+ msg.message +'</p>' +
+							'	</div>' +
+							'</li>');
+						}
+							
+					});
+					
+					$("#ChatScroll").animate({ scrollTop: $("#ChatScroll")[0].scrollHeight}, 1000);
+					ChatTimeAgo();
+				}else if(data.indexOf("FAILED") == 0){
+					var sData = data.split("<:>");
+					var _error = sData[1];
+					alert(_error);
+					
+					// Authentication Problem
+					if(_error.indexOf("Authentication Failed") > -1){
+						// Go To Login Screen
+						GoToLoginScreen();
+					}
+				}
+			});
+	}
+	
+	function GoToLoginScreen(){
+		$('#GreetMesssage').html("Khude Barta");
+		$('#ChatContainer').addClass("hide");
+		$('.modal-dialog').removeClass("hide");
+		$('.footer').addClass("hide");
+	
+		$("#_token").val("");
+		$("#_userid").val("");
+		$("#_username").val("");
+		$("#_fullname").val("");
+		$("#_last").val("");
+						
+		// Stop Checking Message
+		clearInterval(tid);
+	}
+	
+	function abortTimer() { // to be called when you want to stop the timer
+		clearInterval(tid);
+	}
+	
+	function ChatTimeAgo(){
+		//$('.timeCap').each(function(i, obj) {
+		//	$(this).html(time2TimeAgo($(this).data("time")));
+		//});
+		
+		var timeCap = document.querySelectorAll('.timeCap');
+		Array.prototype.forEach.call(timeCap, function(elements, index) {
+			var xTime = elements.getAttribute('data-time');
+			elements.innerHTML = time2TimeAgo(xTime);
+		});
+	}
+	
+	// Window Resize
+	$(window).on('load', function(){
+		$("#ChatScroll").css('height', (window.innerHeight-140)+"px");
+	});
+	$(window).on('resize', function(){
+		$("#ChatScroll").css('height', (window.innerHeight-140)+"px");
+	});
+	
+
+</script>
+
+</html>
